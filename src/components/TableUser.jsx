@@ -8,13 +8,13 @@ export default function TableUser() {
   }, []);
   const getUsers = async () => {
     let res = await fetchUser();
-    if (res && res.data && res.data.data) {
-      setListUser(res.data.data);
+    if (res && res.data) {
+      setListUser(res.data);
     }
   };
   return (
     <div className="container">
-      <table className="table table-striped">
+      <table className="border table table-striped mt-5">
         <thead>
           <tr>
             <th scope="col">ID</th>

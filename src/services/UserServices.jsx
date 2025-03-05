@@ -1,6 +1,7 @@
-import axios from "axios";
+import baseURL from "./CustomAxios";
 
 const fetchUser = () => {
-  return axios.get("https://reqres.in/api/users?page=1");
+  return baseURL.get("/api/users?page=1");
 };
+
 export { fetchUser };
