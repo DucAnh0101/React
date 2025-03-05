@@ -1,20 +1,29 @@
 import { useEffect, useState } from "react";
 import { fetchUser } from "../services/UserServices";
+import ReactPaginate from "react-paginate";
 
 export default function TableUser() {
   const [listUser, setListUser] = useState([]);
+  const [totalUser, setTotalUser] = useState(0);
+  const [totalPage, settotalPage] = useState(0);
   useEffect(() => {
     getUsers();
   }, []);
-  const getUsers = async () => {
-    let res = await fetchUser();
+  const getUsers = async (page) => {
+    let res = await fetchUser(page);
     if (res && res.data) {
       setListUser(res.data);
+      setTotalUser(res.total);
+      settotalPage(res.total_pages);
     }
+  };
+
+  const handlePageClick = (event) => {
+    getUsers(event.selected + 1);
   };
   return (
     <div className="container">
-      <table className="border table table-striped mt-5">
+      <table className="table table-striped table-bordered mt-5">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -23,7 +32,7 @@ export default function TableUser() {
             <th scope="col">LastName</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="table table-group-divider">
           {listUser &&
             listUser.length > 0 &&
             listUser.map((item, index) => {
@@ -38,6 +47,25 @@ export default function TableUser() {
             })}
         </tbody>
       </table>
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel=">"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={3}
+        pageCount={totalPage}
+        previousLabel="<"
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
+        containerClassName="pagination"
+        activeClassName="active"
+        disabledClassName="disabled"
+      />
     </div>
   );
 }

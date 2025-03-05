@@ -1,7 +1,7 @@
 import baseURL from "./CustomAxios";
 
-const fetchUser = () => {
-  return baseURL.get("/api/users?page=1");
+const fetchUser = (page) => {
+  return baseURL.get(`/api/users?page=${page}`);
 };
 
 export { fetchUser };
